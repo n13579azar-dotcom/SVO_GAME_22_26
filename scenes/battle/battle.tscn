@@ -1,0 +1,44 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/battle/battle.gd" id="1_battle"]
+[ext_resource type="Script" path="res://scripts/battle/battle_map.gd" id="2_map"]
+[ext_resource type="Script" path="res://scripts/camera/camera_controller.gd" id="3_cam"]
+[ext_resource type="Script" path="res://scripts/battle/game_clock.gd" id="4_clock"]
+[ext_resource type="Script" path="res://scripts/battle/match_rules.gd" id="5_rules"]
+[ext_resource type="Script" path="res://scripts/battle/input_controller.gd" id="6_input"]
+[ext_resource type="PackedScene" path="res://scenes/interface/hud.tscn" id="7_hud"]
+[ext_resource type="PackedScene" path="res://scenes/interface/radial_menu.tscn" id="8_radial"]
+[ext_resource type="PackedScene" path="res://scenes/interface/vehicle_panel.tscn" id="9_vehicle"]
+
+[node name="Battle" type="Node2D"]
+script = ExtResource("1_battle")
+
+[node name="BattleMap" type="Node2D" parent="."]
+script = ExtResource("2_map")
+
+[node name="Objectives" type="Node2D" parent="."]
+
+[node name="Units" type="Node2D" parent="."]
+
+[node name="Markers" type="Node2D" parent="."]
+
+[node name="Camera" type="Camera2D" parent="."]
+script = ExtResource("3_cam")
+
+[node name="GameClock" type="Node" parent="."]
+script = ExtResource("4_clock")
+
+[node name="MatchRules" type="Node" parent="."]
+script = ExtResource("5_rules")
+
+[node name="InputController" type="Node" parent="."]
+script = ExtResource("6_input")
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="Hud" parent="UI" instance=ExtResource("7_hud")]
+
+[node name="RadialMenu" parent="UI" instance=ExtResource("8_radial")]
+
+[node name="VehiclePanel" parent="UI" instance=ExtResource("9_vehicle")]

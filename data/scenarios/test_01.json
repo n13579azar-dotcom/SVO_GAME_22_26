@@ -1,0 +1,59 @@
+{
+  "id": "test_01",
+  "name": "Тестовая карта: контрольные точки",
+  "kind": "fictional",
+  "date_label": "Условная дата",
+  "description": "Учебный сценарий версии 0.1. Захватите центральный узел и восточную точку, удерживая западную, или уничтожьте противника за 10 минут.",
+  "territory_id": "t_center",
+  "time_limit": 600,
+  "map": {
+    "size": [3200, 2000],
+    "background": "#4b6b3a",
+    "features": [
+      {"type": "road", "points": [[0, 1000], [3200, 1000]], "width": 36},
+      {"type": "road", "points": [[1600, 0], [1600, 2000]], "width": 28},
+      {"type": "forest", "rect": [1000, 300, 360, 260]},
+      {"type": "forest", "rect": [2000, 1300, 420, 300]},
+      {"type": "forest", "rect": [500, 1300, 300, 240]},
+      {"type": "forest", "rect": [2500, 300, 320, 280]},
+      {"type": "water", "rect": [1750, 1450, 300, 200]},
+      {"type": "town", "rect": [1500, 880, 100, 100]},
+      {"type": "town", "rect": [1620, 1030, 90, 90]}
+    ]
+  },
+  "objectives": [
+    {"id": "obj_west", "name": "Западная точка", "pos": [800, 1000], "radius": 130, "owner": "side_a", "capture_time": 12},
+    {"id": "obj_center", "name": "Центральный узел", "pos": [1600, 1000], "radius": 150, "owner": "", "capture_time": 12},
+    {"id": "obj_east", "name": "Восточная точка", "pos": [2400, 1000], "radius": 130, "owner": "side_b", "capture_time": 12}
+  ],
+  "sides": [
+    {
+      "faction": "side_a",
+      "role": "attacker",
+      "playable": true,
+      "home": [400, 1000],
+      "ai": {"aggression": 0.6, "think_interval": 1.0},
+      "win_conditions": ["eliminate_enemy", "control_all_points"],
+      "timeout_result": "defeat",
+      "units": [
+        {"type": "infantry", "pos": [420, 940], "count": 4},
+        {"type": "apc", "pos": [300, 1060], "count": 1},
+        {"type": "tank", "pos": [460, 1120], "count": 1}
+      ]
+    },
+    {
+      "faction": "side_b",
+      "role": "defender",
+      "playable": true,
+      "home": [2800, 1000],
+      "ai": {"aggression": 0.7, "think_interval": 1.0},
+      "win_conditions": ["eliminate_enemy", "control_all_points"],
+      "timeout_result": "victory",
+      "units": [
+        {"type": "infantry", "pos": [2740, 940], "count": 4},
+        {"type": "apc", "pos": [2860, 1060], "count": 1},
+        {"type": "tank", "pos": [2740, 1120], "count": 1}
+      ]
+    }
+  ]
+}

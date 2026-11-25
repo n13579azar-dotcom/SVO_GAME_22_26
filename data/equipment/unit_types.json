@@ -1,0 +1,58 @@
+{
+  "unit_types": [
+    {
+      "id": "infantry",
+      "name": "Пехота",
+      "category": "infantry",
+      "symbol": "П",
+      "shape": "circle",
+      "radius": 13,
+      "max_hp": 100,
+      "speed": 55,
+      "run_speed": 95,
+      "accel": 6.0,
+      "attack": 9,
+      "attack_range": 150,
+      "vision": 280,
+      "capacity": 0,
+      "can_board": true,
+      "actions": ["move", "run", "attack_move", "wait", "board"]
+    },
+    {
+      "id": "apc",
+      "name": "Транспортёр",
+      "category": "vehicle",
+      "symbol": "Т",
+      "shape": "square",
+      "radius": 18,
+      "max_hp": 220,
+      "speed": 100,
+      "run_speed": 150,
+      "accel": 3.0,
+      "attack": 6,
+      "attack_range": 160,
+      "vision": 300,
+      "capacity": 4,
+      "can_board": false,
+      "actions": ["move", "run", "attack_move", "wait", "unboard", "fortify"]
+    },
+    {
+      "id": "tank",
+      "name": "Боевая машина",
+      "category": "vehicle",
+      "symbol": "Б",
+      "shape": "square",
+      "radius": 20,
+      "max_hp": 380,
+      "speed": 75,
+      "run_speed": 105,
+      "accel": 2.5,
+      "attack": 24,
+      "attack_range": 230,
+      "vision": 320,
+      "capacity": 0,
+      "can_board": false,
+      "actions": ["move", "run", "attack_move", "wait", "fortify"]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "factions": "res://data/factions/factions.json",
+  "unit_types": "res://data/equipment/unit_types.json",
+  "territories": "res://data/global_map/territories.json",
+  "scenarios": [
+    "res://data/scenarios/test_01.json",
+    "res://data/scenarios/test_02.json"
+  ]
+}

@@ -1,0 +1,11 @@
+# Godot 4
+.godot/
+.import/
+*.translation
+
+# Экспорт и подписи
+export_credentials.cfg
+*.apk
+*.aab
+*.idsig
+/android/

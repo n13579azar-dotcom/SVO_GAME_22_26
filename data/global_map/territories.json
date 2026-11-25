@@ -1,0 +1,53 @@
+{
+  "map_size": [1000, 600],
+  "territories": [
+    {
+      "id": "t_north",
+      "name": "Северный сектор",
+      "owner": "side_a",
+      "control": "controlled",
+      "polygon": [[60, 40], [360, 30], [380, 200], [300, 260], [70, 230]],
+      "scenarios": []
+    },
+    {
+      "id": "t_northeast",
+      "name": "Северо-восточный сектор",
+      "owner": "side_b",
+      "control": "controlled",
+      "polygon": [[360, 30], [700, 50], [720, 220], [560, 250], [380, 200]],
+      "scenarios": []
+    },
+    {
+      "id": "t_east",
+      "name": "Восточный сектор",
+      "owner": "side_b",
+      "control": "controlled",
+      "polygon": [[700, 50], [950, 90], [930, 300], [720, 300], [720, 220]],
+      "scenarios": []
+    },
+    {
+      "id": "t_west",
+      "name": "Западный сектор",
+      "owner": "side_a",
+      "control": "controlled",
+      "polygon": [[70, 230], [300, 260], [320, 430], [240, 540], [50, 470]],
+      "scenarios": []
+    },
+    {
+      "id": "t_center",
+      "name": "Центральный узел",
+      "owner": "neutral",
+      "control": "contested",
+      "polygon": [[300, 260], [380, 200], [560, 250], [720, 220], [720, 300], [600, 420], [320, 430]],
+      "scenarios": ["test_01"]
+    },
+    {
+      "id": "t_south",
+      "name": "Южный сектор",
+      "owner": "neutral",
+      "control": "contested",
+      "polygon": [[320, 430], [600, 420], [720, 300], [930, 300], [900, 540], [460, 570], [240, 540]],
+      "scenarios": ["test_02"]
+    }
+  ]
+}
