@@ -225,7 +225,7 @@ func find_nearest_enemy(unit: Node2D, max_range: float) -> Node2D:
 			continue
 		if u.faction_id == unit.faction_id:
 			continue
-		var d := unit.position.distance_squared_to(u.position)
+		var d: float = unit.position.distance_squared_to(u.position)
 		if d <= best_d:
 			best_d = d
 			best = u
@@ -239,7 +239,7 @@ func pick_player_unit(world_pos: Vector2, pad: float) -> Node2D:
 		if not is_instance_valid(u) or not u.alive or not u.is_player or u.carried_by != null:
 			continue
 		if u.contains_point(world_pos, pad):
-			var d := u.position.distance_squared_to(world_pos)
+			var d: float = u.position.distance_squared_to(world_pos)
 			if d < best_d:
 				best_d = d
 				best = u
@@ -273,7 +273,7 @@ func find_transport_near(pos: Vector2, faction: String, max_dist: float) -> Node
 			continue
 		if u.capacity <= 0 or u.free_seats() <= 0:
 			continue
-		var d := u.position.distance_squared_to(pos)
+		var d: float = u.position.distance_squared_to(pos)
 		if d <= best_d:
 			best_d = d
 			best = u

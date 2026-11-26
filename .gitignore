@@ -9,3 +9,6 @@ export_credentials.cfg
 *.aab
 *.idsig
 /android/
+
+# Сборка APK
+/build/

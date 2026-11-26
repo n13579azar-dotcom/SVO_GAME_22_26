@@ -1,0 +1,260 @@
+name: Android APK (debug)
+
+# Сборка debug-APK игры SVO GAME 22-26 на Godot 4.2.2.
+# Запуск: вручную (Actions -> Android APK (debug) -> Run workflow),
+# а также при push в main/master и при pull request.
+# Готовый APK сохраняется как artifact "svo-game-debug-apk-<номер>-<sha>".
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+    paths-ignore:
+      - "**.md"
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-apk-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GODOT_VERSION: "4.2.2"
+  GODOT_CHANNEL: "stable"
+  # Версия Build-Tools и платформа, которые требует экспорт Godot 4.2.
+  ANDROID_BUILD_TOOLS: "34.0.0"
+  ANDROID_PLATFORM: "android-34"
+  # Должно совпадать с name в export_presets.cfg.
+  EXPORT_PRESET: "Android debug"
+  APK_NAME: "svo_game_debug.apk"
+
+jobs:
+  build-apk:
+    name: Build debug APK
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Locate Godot project
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t found < <(find . -maxdepth 3 -name project.godot -not -path './.git/*' -not -path '*/.godot/*')
+          if [ "${#found[@]}" -ne 1 ]; then
+            echo "::error::Expected exactly one project.godot, found ${#found[@]}: ${found[*]:-none}"
+            exit 1
+          fi
+          project_dir="$(dirname "${found[0]}")"
+          if [ ! -f "$project_dir/export_presets.cfg" ]; then
+            echo "::error::export_presets.cfg not found next to project.godot ($project_dir)"
+            exit 1
+          fi
+          if ! grep -q "config/features=PackedStringArray(\"4.2\"" "$project_dir/project.godot"; then
+            echo "::warning::project.godot is not marked as a Godot 4.2 project; workflow uses Godot ${GODOT_VERSION}"
+          fi
+          echo "PROJECT_DIR=$project_dir" >> "$GITHUB_ENV"
+          echo "Godot project: $project_dir"
+
+      - name: Cache Godot downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/godot-dl
+          key: godot-${{ env.GODOT_VERSION }}-${{ env.GODOT_CHANNEL }}-downloads-v1
+
+      - name: Download and verify Godot and export templates
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/godot-dl"
+          cd "$HOME/godot-dl"
+          base="https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-${GODOT_CHANNEL}"
+          editor="Godot_v${GODOT_VERSION}-${GODOT_CHANNEL}_linux.x86_64.zip"
+          templates="Godot_v${GODOT_VERSION}-${GODOT_CHANNEL}_export_templates.tpz"
+          for f in "$editor" "$templates"; do
+            if [ ! -f "$f" ]; then
+              curl -fsSL --retry 5 --retry-delay 5 -o "$f" "$base/$f"
+            fi
+          done
+          curl -fsSL --retry 5 --retry-delay 5 -o SHA512-SUMS.txt "$base/SHA512-SUMS.txt"
+          # Контрольные суммы проверяются при каждом запуске, в том числе для кэша.
+          grep -F -e "  $editor" -e "  $templates" SHA512-SUMS.txt > checksums.txt
+          test "$(wc -l < checksums.txt)" -eq 2
+          sha512sum -c checksums.txt
+
+      - name: Install Godot and export templates
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$HOME/godot-dl"
+          editor="Godot_v${GODOT_VERSION}-${GODOT_CHANNEL}_linux.x86_64"
+          templates="Godot_v${GODOT_VERSION}-${GODOT_CHANNEL}_export_templates.tpz"
+
+          mkdir -p "$HOME/.local/bin"
+          unzip -q -o "$editor.zip" -d "$HOME/godot-bin"
+          install -m 755 "$HOME/godot-bin/$editor" "$HOME/.local/bin/godot"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+          templates_dir="$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_CHANNEL}"
+          rm -rf "$HOME/godot-tpl" "$templates_dir"
+          mkdir -p "$HOME/godot-tpl" "$(dirname "$templates_dir")"
+          unzip -q -o "$templates" -d "$HOME/godot-tpl"
+          mv "$HOME/godot-tpl/templates" "$templates_dir"
+
+          for f in android_debug.apk android_release.apk android_source.zip version.txt; do
+            test -s "$templates_dir/$f" || { echo "::error::Missing export template file: $f"; exit 1; }
+          done
+          echo "Template version: $(cat "$templates_dir/version.txt")"
+          "$HOME/.local/bin/godot" --headless --version
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install Android SDK components
+        shell: bash
+        run: |
+          set -euo pipefail
+          sdk_root="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}"
+          sdkmanager="$sdk_root/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -x "$sdkmanager" ]; then
+            echo "::error::sdkmanager not found at $sdkmanager (Android SDK root: $sdk_root)"
+            exit 1
+          fi
+          "$sdkmanager" --licenses < <(yes) > /dev/null
+          "$sdkmanager" --install "platform-tools" "build-tools;${ANDROID_BUILD_TOOLS}" "platforms;${ANDROID_PLATFORM}"
+          test -x "$sdk_root/build-tools/${ANDROID_BUILD_TOOLS}/apksigner"
+          test -x "$sdk_root/platform-tools/adb"
+          echo "ANDROID_SDK_ROOT_RESOLVED=$sdk_root" >> "$GITHUB_ENV"
+
+      - name: Create debug keystore and configure Godot editor settings
+        shell: bash
+        run: |
+          set -euo pipefail
+          keystore="$RUNNER_TEMP/debug.keystore"
+          keytool -genkeypair -keyalg RSA -keysize 2048 -validity 10000 \
+            -alias androiddebugkey -keystore "$keystore" -storetype PKCS12 \
+            -storepass android -keypass android \
+            -dname "CN=Android Debug,O=Android,C=US"
+
+          # Ключ создаётся заново при каждой сборке и нигде не хранится в репозитории.
+          # Это debug-ключ: для публикации в магазине нужен отдельный release-ключ.
+          {
+            echo "GODOT_ANDROID_KEYSTORE_DEBUG_PATH=$keystore"
+            echo "GODOT_ANDROID_KEYSTORE_DEBUG_USER=androiddebugkey"
+            echo "GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD=android"
+          } >> "$GITHUB_ENV"
+
+          mkdir -p "$HOME/.config/godot"
+          cat > "$HOME/.config/godot/editor_settings-4.tres" <<EOF
+          [gd_resource type="EditorSettings" format=3]
+
+          [resource]
+          export/android/android_sdk_path = "$ANDROID_SDK_ROOT_RESOLVED"
+          export/android/java_sdk_path = "$JAVA_HOME"
+          export/android/debug_keystore = "$keystore"
+          export/android/debug_keystore_user = "androiddebugkey"
+          export/android/debug_keystore_pass = "android"
+          export/android/force_system_user = false
+          export/android/shutdown_adb_on_exit = true
+          EOF
+          cp "$HOME/.config/godot/editor_settings-4.tres" "$HOME/.config/godot/editor_settings-4.2.tres"
+
+      - name: Import project resources
+        shell: bash
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/logs"
+          godot --headless --path . --import 2>&1 | tee "$RUNNER_TEMP/logs/import.log"
+          if grep -E "SCRIPT ERROR|Parse Error|Compile Error|Failed to load script" "$RUNNER_TEMP/logs/import.log"; then
+            echo "::error::GDScript errors found during project import (see log above)"
+            exit 1
+          fi
+
+      - name: Smoke test scenes (headless)
+        shell: bash
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          for scene in main_menu/main_menu world_map/world_map battle/battle; do
+            log="$RUNNER_TEMP/logs/smoke_$(basename "$scene").log"
+            echo "::group::Run res://scenes/$scene.tscn"
+            godot --headless --path . "res://scenes/$scene.tscn" --quit-after 300 2>&1 | tee "$log"
+            echo "::endgroup::"
+            if grep -E "SCRIPT ERROR|Parse Error|Compile Error|Failed to load" "$log"; then
+              echo "::error::Errors while running scene $scene"
+              exit 1
+            fi
+          done
+
+      - name: Export debug APK
+        shell: bash
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          mkdir -p build
+          rm -f "build/$APK_NAME"
+          godot --headless --path . --export-debug "$EXPORT_PRESET" "build/$APK_NAME" 2>&1 | tee "$RUNNER_TEMP/logs/export.log"
+          # Godot 4.2 возвращает код 0 даже при ошибках экспорта, а при сбое подписи
+          # создаёт неподписанный APK ("Code Signing ... unsigned"), поэтому лог проверяется явно.
+          if grep -E "configuration errors|Cannot export|Export failed|Failed to export|Code Signing|is unsigned|apksigner.*(error|fail)" "$RUNNER_TEMP/logs/export.log"; then
+            echo "::error::Godot reported export/signing errors (see log above)"
+            exit 1
+          fi
+          # Остальные ERROR/WARNING не скрываются: выводятся как аннотации, но сборку не останавливают.
+          grep -E "^(ERROR|WARNING):" "$RUNNER_TEMP/logs/export.log" | grep -v -E "Custom cursor|Blend file" | while read -r line; do echo "::warning::$line"; done || true
+          test -s "build/$APK_NAME" || { echo "::error::APK was not created"; exit 1; }
+
+      - name: Verify APK
+        shell: bash
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          apk="build/$APK_NAME"
+          build_tools="$ANDROID_SDK_ROOT_RESOLVED/build-tools/$ANDROID_BUILD_TOOLS"
+          unzip -tq "$apk"
+          unzip -l "$apk" | grep -q "AndroidManifest.xml"
+          unzip -l "$apk" | grep -q "classes.dex"
+          unzip -l "$apk" | grep -q "lib/arm64-v8a/libgodot_android.so"
+          # Игровые данные (JSON) должны попасть в APK благодаря include_filter="data/*".
+          unzip -l "$apk" | grep -q "assets/data/manifest.json"
+          unzip -l "$apk" | grep -q "assets/data/scenarios/test_01.json"
+          # Подпись: неподписанный APK на телефон не установится.
+          "$build_tools/apksigner" verify --verbose "$apk"
+          "$build_tools/aapt2" dump badging "$apk" | tee "$RUNNER_TEMP/logs/badging.txt" | head -n 5
+          grep -q "package: name='com.svogame.svo2226'" "$RUNNER_TEMP/logs/badging.txt"
+          size="$(stat -c %s "$apk")"
+          sha="$(sha256sum "$apk" | cut -d' ' -f1)"
+          {
+            echo "### Debug APK"
+            echo "- File: \`$APK_NAME\`"
+            echo "- Size: $((size / 1024 / 1024)) MiB"
+            echo "- SHA-256: \`$sha\`"
+            echo "- Godot: ${GODOT_VERSION}-${GODOT_CHANNEL}"
+            echo
+            echo "Download the artifact below, unzip it and install the APK on your phone."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: svo-game-debug-apk-${{ github.run_number }}-${{ github.sha }}
+          path: ${{ env.PROJECT_DIR }}/build/${{ env.APK_NAME }}
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload build logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: svo-game-build-logs-${{ github.run_number }}
+          path: ${{ runner.temp }}/logs/
+          if-no-files-found: warn
+          retention-days: 7
