@@ -288,8 +288,9 @@ func show_result(result: Dictionary) -> void:
 			_result_title.text = "ПОРАЖЕНИЕ"
 		_:
 			_result_title.text = "НИЧЬЯ"
-	_result_info.text = "%s\nВремя матча: %s\nРезультат сохранён и применён к глобальной карте." % [
-		str(result.get("reason", "")), GameClockScript.format_time(float(result.get("time", 0.0)))]
+	_result_info.text = "%s\nВремя матча: %s\nПотери: свои %d, противника %d\nРезультат сохранён и применён к глобальной карте." % [
+		str(result.get("reason", "")), GameClockScript.format_time(float(result.get("time", 0.0))),
+		int(result.get("losses_own", 0)), int(result.get("losses_enemy", 0))]
 	_result_overlay.visible = true
 
 

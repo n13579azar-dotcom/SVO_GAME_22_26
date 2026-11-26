@@ -194,6 +194,21 @@ jobs:
             fi
           done
 
+      - name: Balance simulation (headless, AI vs AI)
+        shell: bash
+        working-directory: ${{ env.PROJECT_DIR }}
+        run: |
+          set -euo pipefail
+          if [ ! -f tools/balance_sim.tscn ]; then
+            echo "tools/balance_sim.tscn not found, skipping"
+            exit 0
+          fi
+          godot --headless --path . res://tools/balance_sim.tscn -- runs=6 strict=1 2>&1 | tee "$RUNNER_TEMP/logs/balance_sim.log"
+          if grep -E "SCRIPT ERROR|Parse Error|Compile Error|Failed to load" "$RUNNER_TEMP/logs/balance_sim.log"; then
+            echo "::error::Errors during balance simulation"
+            exit 1
+          fi
+
       - name: Export debug APK
         shell: bash
         working-directory: ${{ env.PROJECT_DIR }}

@@ -16,7 +16,15 @@
       "vision": 280,
       "capacity": 0,
       "can_board": true,
-      "actions": ["move", "run", "attack_move", "wait", "board"]
+      "actions": [
+        "move",
+        "run",
+        "attack_move",
+        "wait",
+        "board"
+      ],
+      "dmg_vs_infantry": 1.0,
+      "dmg_vs_vehicle": 0.35
     },
     {
       "id": "apc",
@@ -34,7 +42,16 @@
       "vision": 300,
       "capacity": 4,
       "can_board": false,
-      "actions": ["move", "run", "attack_move", "wait", "unboard", "fortify"]
+      "actions": [
+        "move",
+        "run",
+        "attack_move",
+        "wait",
+        "unboard",
+        "fortify"
+      ],
+      "dmg_vs_infantry": 1.2,
+      "dmg_vs_vehicle": 0.3
     },
     {
       "id": "tank",
@@ -52,7 +69,15 @@
       "vision": 320,
       "capacity": 0,
       "can_board": false,
-      "actions": ["move", "run", "attack_move", "wait", "fortify"]
+      "actions": [
+        "move",
+        "run",
+        "attack_move",
+        "wait",
+        "fortify"
+      ],
+      "dmg_vs_infantry": 0.7,
+      "dmg_vs_vehicle": 1.2
     }
   ]
 }

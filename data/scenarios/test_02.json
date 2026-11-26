@@ -7,46 +7,163 @@
   "territory_id": "t_south",
   "time_limit": 480,
   "map": {
-    "size": [2400, 1600],
+    "size": [
+      2400,
+      1600
+    ],
     "background": "#5a6b3a",
     "features": [
-      {"type": "road", "points": [[0, 800], [2400, 800]], "width": 32},
-      {"type": "forest", "rect": [700, 200, 300, 260]},
-      {"type": "forest", "rect": [1400, 1100, 340, 260]},
-      {"type": "water", "rect": [900, 1150, 260, 180]},
-      {"type": "town", "rect": [1150, 700, 100, 100]}
+      {
+        "type": "road",
+        "points": [
+          [
+            0,
+            800
+          ],
+          [
+            2400,
+            800
+          ]
+        ],
+        "width": 32
+      },
+      {
+        "type": "forest",
+        "rect": [
+          700,
+          200,
+          300,
+          260
+        ]
+      },
+      {
+        "type": "forest",
+        "rect": [
+          1400,
+          1100,
+          340,
+          260
+        ]
+      },
+      {
+        "type": "water",
+        "rect": [
+          900,
+          1150,
+          260,
+          180
+        ]
+      },
+      {
+        "type": "town",
+        "rect": [
+          1150,
+          700,
+          100,
+          100
+        ]
+      }
     ]
   },
   "objectives": [
-    {"id": "obj_hub", "name": "Узел обороны", "pos": [1200, 800], "radius": 140, "owner": "side_b", "capture_time": 15}
+    {
+      "id": "obj_hub",
+      "name": "Узел обороны",
+      "pos": [
+        1200,
+        800
+      ],
+      "radius": 140,
+      "owner": "side_b",
+      "capture_time": 15
+    }
   ],
   "sides": [
     {
       "faction": "side_a",
       "role": "attacker",
       "playable": true,
-      "home": [250, 800],
-      "ai": {"aggression": 0.8, "think_interval": 1.0},
-      "win_conditions": ["eliminate_enemy", "control_all_points"],
+      "home": [
+        250,
+        800
+      ],
+      "ai": {
+        "aggression": 0.8,
+        "think_interval": 1.0
+      },
+      "win_conditions": [
+        "eliminate_enemy",
+        "control_all_points"
+      ],
       "timeout_result": "defeat",
       "units": [
-        {"type": "infantry", "pos": [260, 740], "count": 6},
-        {"type": "apc", "pos": [180, 860], "count": 1},
-        {"type": "tank", "pos": [300, 880], "count": 2}
+        {
+          "type": "infantry",
+          "pos": [
+            260,
+            740
+          ],
+          "count": 6
+        },
+        {
+          "type": "apc",
+          "pos": [
+            180,
+            860
+          ],
+          "count": 1
+        },
+        {
+          "type": "tank",
+          "pos": [
+            300,
+            880
+          ],
+          "count": 2
+        }
       ]
     },
     {
       "faction": "side_b",
       "role": "defender",
       "playable": true,
-      "home": [2150, 800],
-      "ai": {"aggression": 0.4, "think_interval": 1.0},
-      "win_conditions": ["eliminate_enemy"],
+      "home": [
+        2150,
+        800
+      ],
+      "ai": {
+        "aggression": 0.4,
+        "think_interval": 1.0
+      },
+      "win_conditions": [
+        "eliminate_enemy"
+      ],
       "timeout_result": "victory",
       "units": [
-        {"type": "infantry", "pos": [1260, 740], "count": 4},
-        {"type": "apc", "pos": [2100, 860], "count": 1},
-        {"type": "tank", "pos": [1300, 880], "count": 1}
+        {
+          "type": "infantry",
+          "pos": [
+            1160,
+            710
+          ],
+          "count": 8
+        },
+        {
+          "type": "tank",
+          "pos": [
+            1260,
+            880
+          ],
+          "count": 2
+        },
+        {
+          "type": "apc",
+          "pos": [
+            1330,
+            900
+          ],
+          "count": 1
+        }
       ]
     }
   ]

@@ -13,6 +13,7 @@ var scenario_order: Array = []
 var territories: Dictionary = {}
 var territory_order: Array = []
 var territory_map_size: Vector2 = Vector2(1000, 600)
+var balance: Dictionary = {}
 
 
 func _ready() -> void:
@@ -20,6 +21,7 @@ func _ready() -> void:
 
 
 func reload() -> void:
+	balance.clear()
 	factions.clear()
 	unit_types.clear()
 	scenarios.clear()
@@ -31,6 +33,10 @@ func reload() -> void:
 	if typeof(manifest) != TYPE_DICTIONARY:
 		push_error("DataLoader: не удалось прочитать manifest: %s" % MANIFEST_PATH)
 		return
+
+	var b_data: Variant = _read_json(str(manifest.get("balance", "")))
+	if typeof(b_data) == TYPE_DICTIONARY:
+		balance = b_data
 
 	var f_data: Variant = _read_json(str(manifest.get("factions", "")))
 	if typeof(f_data) == TYPE_DICTIONARY:
@@ -57,6 +63,25 @@ func reload() -> void:
 			var sid := str(s.get("id", ""))
 			scenarios[sid] = s
 			scenario_order.append(sid)
+
+
+## Значение из data/balance.json: balance_value("combat", "damage_scale", 1.0).
+func balance_value(section: String, key: String, default_value: Variant) -> Variant:
+	var s: Variant = balance.get(section, {})
+	if typeof(s) == TYPE_DICTIONARY and s.has(key):
+		return s[key]
+	return default_value
+
+
+## Параметры рельефа (скорость и укрытие) из data/balance.json.
+func terrain_params(kind: String) -> Dictionary:
+	var t: Variant = balance.get("terrain", {})
+	if typeof(t) == TYPE_DICTIONARY:
+		if t.has(kind):
+			return t[kind]
+		if t.has("open"):
+			return t["open"]
+	return {"infantry_speed": 1.0, "vehicle_speed": 1.0, "defense": 1.0}
 
 
 func get_faction(id: String) -> Dictionary:

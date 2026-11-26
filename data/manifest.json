@@ -1,5 +1,6 @@
 {
   "version": 1,
+  "balance": "res://data/balance.json",
   "factions": "res://data/factions/factions.json",
   "unit_types": "res://data/equipment/unit_types.json",
   "territories": "res://data/global_map/territories.json",

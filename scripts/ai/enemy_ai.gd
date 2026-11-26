@@ -6,8 +6,9 @@ extends Node
 ##  - транспорт подвозит пехоту и высаживает её у цели или при контакте.
 ## Приказы переотдаются только при заметном изменении задачи.
 
-const RETREAT_HP_RATIO := 0.3
 const REISSUE_DIST := 60.0
+const DEFENSIVE_AGGRESSION := 0.5
+const RALLY_RADIUS := 220.0
 
 var battle: Node = null
 var faction_id: String = ""
@@ -15,6 +16,7 @@ var home: Vector2 = Vector2.ZERO
 var aggression: float = 0.6
 var think_interval: float = 1.0
 var _timer: float = 0.0
+var _retreat_ratio: float = 0.3
 
 
 func setup(p_battle: Node, p_faction: String, side_data: Dictionary) -> void:
@@ -26,6 +28,7 @@ func setup(p_battle: Node, p_faction: String, side_data: Dictionary) -> void:
 	aggression = float(profile.get("aggression", 0.6))
 	think_interval = maxf(0.2, float(profile.get("think_interval", 1.0)))
 	_timer = randf() * think_interval
+	_retreat_ratio = float(DataLoader.balance_value("combat", "retreat_hp_ratio", 0.3))
 
 
 func sim_step(dt: float) -> void:
@@ -45,24 +48,71 @@ func _think() -> void:
 		return
 
 	var targets: Array = _target_points()
+	# Ближайшие к базе цели первыми: силы не растягиваются через всю карту.
+	targets.sort_custom(func(a, b): return a.position.distance_squared_to(home) < b.position.distance_squared_to(home))
 	var idx := 0
 	for u in mine:
 		if str(u.type_data.get("category", "")) == "vehicle" and u.capacity > 0:
 			_think_transport(u, targets)
 			continue
+		# Отступившие подразделения не возвращаются в бой сами: дошли до базы и держат позицию.
+		var prev_kind := str(u.ai_task.get("kind", ""))
+		if prev_kind == "retreat" or prev_kind == "rally":
+			if u.position.distance_to(home) > RALLY_RADIUS:
+				_assign(u, "retreat", home)
+			else:
+				_assign(u, "rally", home)
+			continue
 		var enemy: Node2D = battle.find_nearest_enemy(u, u.vision)
+		if aggression < DEFENSIVE_AGGRESSION and _hold_owned_ground(u, enemy):
+			continue
 		if enemy != null:
-			if u.hp < u.max_hp * RETREAT_HP_RATIO and aggression < 0.9:
+			if u.hp < u.max_hp * _retreat_ratio and aggression < 0.9 and _outmatched(u):
 				_assign(u, "retreat", home)
 			else:
 				_assign(u, "attack", enemy.position)
 			continue
 		if not targets.is_empty():
-			var p: Node2D = targets[idx % targets.size()]
+			# Основная масса идёт к ближайшей цели; крупная группа выделяет резерв ко второй.
+			var p: Node2D = targets[0]
+			if targets.size() > 1 and mine.size() >= 6 and idx % 3 == 2:
+				p = targets[1]
 			idx += 1
 			_assign(u, "capture", p.position)
 		else:
 			_hunt_or_hold(u)
+
+
+## Осторожный ИИ не покидает зону своей точки: стоит и ведёт огонь по врагам
+## в радиусе оружия, а при смещении возвращается. Возвращает true, если приказ отдан.
+func _hold_owned_ground(u: Node2D, _enemy: Node2D) -> bool:
+	var best: Node2D = null
+	var best_d := INF
+	for p in battle.points:
+		if p.owner_id == faction_id:
+			var d: float = u.position.distance_squared_to(p.position)
+			if d < best_d:
+				best_d = d
+				best = p
+	if best == null:
+		return false
+	if u.position.distance_to(best.position) > best.radius * 0.8:
+		_assign(u, "defend", best.position)
+	else:
+		_assign(u, "hold", u.position)
+	return true
+
+
+## Раненое подразделение отступает, только если рядом враг сильнее своих
+## (сила = урон в секунду * здоровье). Иначе продолжает бой.
+func _outmatched(u: Node2D) -> bool:
+	var mine: float = u.attack_dps * u.hp
+	for f in battle.friends_in_range(u, u.vision):
+		mine += f.attack_dps * f.hp
+	var theirs := 0.0
+	for e in battle.enemies_in_range(u, u.vision):
+		theirs += e.attack_dps * e.hp
+	return theirs > mine
 
 
 func _target_points() -> Array:
@@ -133,7 +183,7 @@ func _assign(u: Node2D, kind: String, pos: Vector2) -> void:
 			u.order_move(battle.clamp_to_map(home, u.radius), true)
 		"attack":
 			u.order_attack_move(battle.clamp_to_map(pos, u.radius))
-		"capture":
+		"capture", "defend":
 			u.order_attack_move(battle.clamp_to_map(pos + Vector2(randf_range(-50, 50), randf_range(-50, 50)), u.radius))
-		"hold":
+		"hold", "rally":
 			u.order_hold()

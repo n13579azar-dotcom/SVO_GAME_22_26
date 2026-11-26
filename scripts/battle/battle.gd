@@ -7,6 +7,8 @@ const ControlPointScene := preload("res://scenes/battle/control_point.tscn")
 const SelectionManager := preload("res://scripts/units/selection_manager.gd")
 const EnemyAI := preload("res://scripts/ai/enemy_ai.gd")
 const OrderMarker := preload("res://scripts/battle/order_marker.gd")
+const TerrainScript := preload("res://scripts/battle/terrain.gd")
+const WreckScript := preload("res://scripts/battle/wreck.gd")
 
 const MAX_SIM_STEP := 0.05
 const MAX_STEPS_PER_FRAME := 12
@@ -33,7 +35,11 @@ var points: Array = []
 var ai_controllers: Array = []
 var selection := SelectionManager.new()
 var finished: bool = false
+var terrain := TerrainScript.new()
+## faction_id -> число потерянных подразделений
+var losses: Dictionary = {}
 var _next_uid: int = 1
+var _tick: int = 0
 
 
 func _ready() -> void:
@@ -78,9 +84,14 @@ func _process(delta: float) -> void:
 
 func _sim_step(dt: float) -> void:
 	clock.advance(dt)
-	for u in units.duplicate():
+	_tick += 1
+	var order: Array = units.duplicate()
+	if _tick % 2 == 1:
+		order.reverse()  # чередуем порядок обработки: нет «преимущества первого хода»
+	for u in order:
 		if is_instance_valid(u):
 			u.sim_step(dt)
+	_separate_units()
 	for p in points:
 		p.sim_step(dt, units)
 	for a in ai_controllers:
@@ -93,6 +104,7 @@ func _sim_step(dt: float) -> void:
 func _build_map() -> void:
 	var map_data: Dictionary = scenario.get("map", {})
 	battle_map.setup(map_data)
+	terrain.setup(map_data.get("features", []))
 	var sz: Array = map_data.get("size", [3200, 2000])
 	map_rect = Rect2(0, 0, float(sz[0]), float(sz[1]))
 
@@ -174,6 +186,8 @@ func _setup_ui() -> void:
 
 func _on_unit_died(u: Node2D) -> void:
 	units.erase(u)
+	losses[u.faction_id] = int(losses.get(u.faction_id, 0)) + 1
+	spawn_wreck(u.position, u.faction_color, u.radius)
 
 
 func _on_match_finished(result: Dictionary) -> void:
@@ -184,6 +198,12 @@ func _on_match_finished(result: Dictionary) -> void:
 	radial_menu.close_menu()
 	vehicle_panel.close_panel()
 	input_controller.cancel_pending()
+	var own := int(losses.get(player_faction, 0))
+	var total := 0
+	for f in losses.keys():
+		total += int(losses[f])
+	result["losses_own"] = own
+	result["losses_enemy"] = total - own
 	GameState.finish_scenario(scenario_id, player_faction, result)
 	hud.show_result(result)
 
@@ -199,6 +219,68 @@ func clamp_to_map(pos: Vector2, margin: float = 0.0) -> Vector2:
 	return Vector2(
 		clampf(pos.x, map_rect.position.x + margin, map_rect.end.x - margin),
 		clampf(pos.y, map_rect.position.y + margin, map_rect.end.y - margin))
+
+
+func terrain_at(pos: Vector2) -> String:
+	return terrain.kind_at(pos)
+
+
+## Противники в радиусе (для выбора цели). Посаженные в транспорт не учитываются.
+func enemies_in_range(unit: Node2D, max_range: float) -> Array:
+	var out: Array = []
+	var r2 := max_range * max_range
+	for u in units:
+		if not is_instance_valid(u) or not u.alive or u.carried_by != null:
+			continue
+		if u.faction_id == unit.faction_id:
+			continue
+		if unit.position.distance_squared_to(u.position) <= r2:
+			out.append(u)
+	return out
+
+
+## Свои подразделения в радиусе (без самого unit, без посаженных в транспорт).
+func friends_in_range(unit: Node2D, max_range: float) -> Array:
+	var out: Array = []
+	var r2 := max_range * max_range
+	for u in units:
+		if not is_instance_valid(u) or not u.alive or u.carried_by != null or u == unit:
+			continue
+		if u.faction_id == unit.faction_id and unit.position.distance_squared_to(u.position) <= r2:
+			out.append(u)
+	return out
+
+
+## Мягкое разведение: подразделения не слипаются в одну точку.
+func _separate_units() -> void:
+	var active: Array = []
+	for u in units:
+		if is_instance_valid(u) and u.alive and u.carried_by == null:
+			active.append(u)
+	var n := active.size()
+	for i in n:
+		var a: Node2D = active[i]
+		for j in range(i + 1, n):
+			var b: Node2D = active[j]
+			var min_d: float = a.radius + b.radius + 2.0
+			var delta: Vector2 = b.position - a.position
+			var d2 := delta.length_squared()
+			if d2 >= min_d * min_d:
+				continue
+			var d := sqrt(d2)
+			var dir := delta / d if d > 0.001 else Vector2.RIGHT.rotated(float(a.uid) * 2.4)
+			var shift := dir * (min_d - d) * 0.25
+			a.position = clamp_to_map(a.position - shift, a.radius)
+			b.position = clamp_to_map(b.position + shift, b.radius)
+
+
+func spawn_wreck(world_pos: Vector2, color: Color, radius: float) -> void:
+	var w := WreckScript.new()
+	w.color = color
+	w.radius = radius
+	w.lifetime = float(DataLoader.balance_value("combat", "wreck_lifetime", 25.0))
+	w.position = world_pos
+	markers_node.add_child(w)
 
 
 func count_units(faction: String) -> int:

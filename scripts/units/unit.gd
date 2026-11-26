@@ -9,10 +9,9 @@ enum Mode { IDLE, MOVE, RUN, ATTACK_MOVE, BOARD }
 
 const ARRIVE_DIST := 5.0
 const BOARD_DIST := 34.0
-const FORTIFY_TIME := 3.0
-const FORTIFY_DEFENSE := 0.6
 const FLASH_TIME := 0.15
 const SCAN_INTERVAL := 0.3
+const TERRAIN_INTERVAL := 0.3
 
 var battle: Node = null
 var uid: int = 0
@@ -32,6 +31,20 @@ var attack_dps: float = 5.0
 var attack_range: float = 120.0
 var vision: float = 250.0
 var capacity: int = 0
+var category: String = "infantry"
+var dmg_vs_infantry: float = 1.0
+var dmg_vs_vehicle: float = 1.0
+
+## Параметры из data/balance.json.
+var damage_scale: float = 1.0
+var range_falloff: float = 0.0
+var fortify_time: float = 3.0
+var fortify_defense: float = 0.6
+
+var terrain_kind: String = "open"
+var terrain_speed: float = 1.0
+var terrain_defense: float = 1.0
+var _terrain_timer: float = 0.0
 
 var alive: bool = true
 var selected: bool = false
@@ -72,14 +85,23 @@ func setup(p_battle: Node, p_type_data: Dictionary, p_faction: String, p_pos: Ve
 	max_hp = float(p_type_data.get("max_hp", 100))
 	hp = max_hp
 	radius = float(p_type_data.get("radius", 14))
-	speed = float(p_type_data.get("speed", 50))
-	run_speed = float(p_type_data.get("run_speed", speed * 1.6))
+	var speed_scale := float(DataLoader.balance_value("movement", "speed_scale", 1.0))
+	speed = float(p_type_data.get("speed", 50)) * speed_scale
+	run_speed = float(p_type_data.get("run_speed", float(p_type_data.get("speed", 50)) * 1.6)) * speed_scale
 	accel = float(p_type_data.get("accel", 5.0))
 	attack_dps = float(p_type_data.get("attack", 5))
 	attack_range = float(p_type_data.get("attack_range", 120))
 	vision = float(p_type_data.get("vision", 250))
 	capacity = int(p_type_data.get("capacity", 0))
+	category = str(p_type_data.get("category", "infantry"))
+	dmg_vs_infantry = float(p_type_data.get("dmg_vs_infantry", 1.0))
+	dmg_vs_vehicle = float(p_type_data.get("dmg_vs_vehicle", 1.0))
+	damage_scale = float(DataLoader.balance_value("combat", "damage_scale", 1.0))
+	range_falloff = float(DataLoader.balance_value("combat", "range_falloff", 0.0))
+	fortify_time = float(DataLoader.balance_value("fortify", "time", 3.0))
+	fortify_defense = float(DataLoader.balance_value("fortify", "defense", 0.6))
 	_scan_timer = randf() * SCAN_INTERVAL
+	_terrain_timer = randf() * TERRAIN_INTERVAL
 	queue_redraw()
 
 
@@ -138,6 +160,7 @@ func sim_step(dt: float) -> void:
 		return
 	if carried_by != null:
 		return
+	_update_terrain(dt)
 	_update_movement(dt)
 	_update_fortify(dt)
 	_update_combat(dt)
@@ -146,6 +169,18 @@ func sim_step(dt: float) -> void:
 		_flash_timer -= dt
 	if selected or _flash_timer > 0.0 or velocity_vec.length_squared() > 1.0:
 		queue_redraw()
+
+
+func _update_terrain(dt: float) -> void:
+	_terrain_timer -= dt
+	if _terrain_timer > 0.0 or battle == null:
+		return
+	_terrain_timer = TERRAIN_INTERVAL
+	terrain_kind = battle.terrain_at(position)
+	var params: Dictionary = DataLoader.terrain_params(terrain_kind)
+	var speed_key := "vehicle_speed" if category == "vehicle" else "infantry_speed"
+	terrain_speed = float(params.get(speed_key, 1.0))
+	terrain_defense = float(params.get("defense", 1.0))
 
 
 func _update_movement(dt: float) -> void:
@@ -182,6 +217,7 @@ func _update_movement(dt: float) -> void:
 					max_speed = run_speed
 					desired = to_t / d * max_speed
 
+	desired *= terrain_speed
 	velocity_vec = velocity_vec.lerp(desired, clampf(accel * dt, 0.0, 1.0))
 	if velocity_vec.length_squared() < 0.04 and desired == Vector2.ZERO:
 		velocity_vec = Vector2.ZERO
@@ -195,7 +231,7 @@ func _update_movement(dt: float) -> void:
 func _update_fortify(dt: float) -> void:
 	if fortify_pending and velocity_vec == Vector2.ZERO:
 		fortify_timer += dt
-		if fortify_timer >= FORTIFY_TIME:
+		if fortify_timer >= fortify_time:
 			fortify_pending = false
 			dug_in = true
 			queue_redraw()
@@ -211,14 +247,37 @@ func _update_combat(dt: float) -> void:
 		target_enemy = null
 		return
 	_scan_timer -= dt
-	if _scan_timer <= 0.0 or not _has_valid_target():
-		if _scan_timer <= 0.0:
-			_scan_timer = SCAN_INTERVAL
-			target_enemy = battle.find_nearest_enemy(self, attack_range) if battle != null else null
+	if _scan_timer <= 0.0:
+		_scan_timer = SCAN_INTERVAL
+		target_enemy = _pick_target() if battle != null else null
 	if _has_valid_target():
-		target_enemy.take_damage(attack_dps * dt, self)
+		var dist := position.distance_to(target_enemy.position)
+		var falloff := 1.0 - range_falloff * clampf(dist / maxf(attack_range, 1.0), 0.0, 1.0)
+		target_enemy.take_damage(attack_dps * damage_scale * damage_mult_against(target_enemy) * falloff * dt, self)
 		_flash_timer = FLASH_TIME
 		_flash_to = target_enemy.position - position
+
+
+## Множитель урона по классу цели (пехота / техника) из данных типа.
+func damage_mult_against(target: Node2D) -> float:
+	return dmg_vs_vehicle if target.category == "vehicle" else dmg_vs_infantry
+
+
+## Выбор цели: ближайшие и раненые цели в приоритете, а также те,
+## по которым оружие подразделения наиболее эффективно (фокусировка огня).
+func _pick_target() -> Node2D:
+	var best: Node2D = null
+	var best_score := INF
+	for e in battle.enemies_in_range(self, attack_range):
+		var score: float = position.distance_to(e.position) / maxf(attack_range, 1.0)
+		score += 0.35 * (e.hp / e.max_hp)
+		score -= 0.3 * damage_mult_against(e)
+		if e == target_enemy:
+			score -= 0.1
+		if score < best_score:
+			best_score = score
+			best = e
+	return best
 
 
 func _update_passengers() -> void:
@@ -230,7 +289,7 @@ func _update_passengers() -> void:
 func take_damage(amount: float, _source: Node2D = null) -> void:
 	if not alive:
 		return
-	var mult := FORTIFY_DEFENSE if dug_in else 1.0
+	var mult := terrain_defense * (fortify_defense if dug_in else 1.0)
 	hp -= amount * mult
 	queue_redraw()
 	if hp <= 0.0:
