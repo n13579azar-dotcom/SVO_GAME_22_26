@@ -4,6 +4,8 @@
   "factions": "res://data/factions/factions.json",
   "unit_types": "res://data/equipment/unit_types.json",
   "territories": "res://data/global_map/territories.json",
+  "global_geo": "res://data/global_map/ukraine.json",
+  "places": "res://data/global_map/places.json",
   "scenarios": [
     "res://data/scenarios/test_01.json",
     "res://data/scenarios/test_02.json"

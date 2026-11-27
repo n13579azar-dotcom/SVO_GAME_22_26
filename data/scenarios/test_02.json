@@ -4,7 +4,7 @@
   "kind": "fictional",
   "date_label": "Условная дата",
   "description": "Малый учебный сценарий. Обороняющаяся сторона удерживает узел 8 минут; нападающая должна захватить его или уничтожить противника.",
-  "territory_id": "t_south",
+  "territory_id": "kirovohrad",
   "time_limit": 480,
   "map": {
     "size": [

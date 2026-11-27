@@ -17,6 +17,15 @@ var territories: Dictionary = {}
 ## scenario_id -> {"outcome": String, "side": String, "time": float, "unix": int}
 var results: Dictionary = {}
 
+## Положение камеры глобальной карты (сохраняется между экранами в рамках запуска)
+var map_camera: Dictionary = {}
+## Последняя выбранная/сыгранная территория: карта вернётся к ней после боя
+var last_territory_id: String = ""
+## Последнее выбранное место сценариев (для возврата на карту после боя)
+var last_place_id: String = ""
+## Выбранный фильтр года на карте ("" — все)
+var map_filter: String = ""
+
 var current_scenario_id: String = ""
 var current_side: String = ""
 
@@ -65,26 +74,16 @@ func start_scenario(scenario_id: String, side: String) -> void:
 		return
 	current_scenario_id = scenario_id
 	current_side = side
+	last_place_id = DataLoader.place_of_event(scenario_id)
 	change_scene(SCENE_BATTLE)
 
 
 ## Применяет итог матча к глобальной карте и сохраняет прогресс.
 func finish_scenario(scenario_id: String, side: String, result: Dictionary) -> void:
-	var scn: Dictionary = DataLoader.get_scenario(scenario_id)
 	var outcome := str(result.get("outcome", "draw"))
-	var tid := str(scn.get("territory_id", ""))
 
-	if territories.has(tid):
-		var enemy := _enemy_of(scn, side)
-		match outcome:
-			"victory":
-				territories[tid] = {"owner": side, "control": "controlled"}
-			"defeat":
-				territories[tid] = {"owner": enemy, "control": "controlled"}
-			_:
-				territories[tid]["control"] = "contested"
-		territory_changed.emit(tid)
-
+	# Итог боя НЕ перекрашивает области: вымышленный контроль не должен выглядеть как исторический факт.
+	# Прогресс игрока хранится в results и показывается на маркере места сценария.
 	results[scenario_id] = {
 		"outcome": outcome,
 		"side": side,
@@ -124,13 +123,6 @@ func load_game() -> void:
 	if typeof(parsed) != TYPE_DICTIONARY:
 		push_warning("GameState: файл сохранения повреждён, используются значения по умолчанию")
 		return
-	var saved_t: Dictionary = parsed.get("territories", {})
-	for tid in saved_t.keys():
-		if territories.has(tid) and typeof(saved_t[tid]) == TYPE_DICTIONARY:
-			territories[tid] = {
-				"owner": str(saved_t[tid].get("owner", "neutral")),
-				"control": str(saved_t[tid].get("control", "neutral")),
-			}
 	var saved_r: Variant = parsed.get("results", {})
 	if typeof(saved_r) == TYPE_DICTIONARY:
 		results = saved_r

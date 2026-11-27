@@ -14,6 +14,15 @@ var territories: Dictionary = {}
 var territory_order: Array = []
 var territory_map_size: Vector2 = Vector2(1000, 600)
 var balance: Dictionary = {}
+## Геометрия глобальной карты (контур, реки, города): data/global_map/ukraine.json
+var geo: Dictionary = {}
+## id города -> запись
+var cities: Dictionary = {}
+## Места сценариев и события (data/global_map/places.json)
+var places: Array = []
+var place_index: Dictionary = {}
+## id события -> id места
+var _event_place: Dictionary = {}
 
 
 func _ready() -> void:
@@ -28,6 +37,11 @@ func reload() -> void:
 	scenario_order.clear()
 	territories.clear()
 	territory_order.clear()
+	geo.clear()
+	cities.clear()
+	places.clear()
+	place_index.clear()
+	_event_place.clear()
 
 	var manifest: Variant = _read_json(MANIFEST_PATH)
 	if typeof(manifest) != TYPE_DICTIONARY:
@@ -56,6 +70,20 @@ func reload() -> void:
 			var tid := str(t.get("id", ""))
 			territories[tid] = t
 			territory_order.append(tid)
+
+	var g_data: Variant = _read_json(str(manifest.get("global_geo", "")))
+	if typeof(g_data) == TYPE_DICTIONARY:
+		geo = g_data
+		for c in g_data.get("cities", []):
+			cities[str(c.get("id", ""))] = c
+
+	var p_data: Variant = _read_json(str(manifest.get("places", "")))
+	if typeof(p_data) == TYPE_DICTIONARY:
+		for pl in p_data.get("places", []):
+			places.append(pl)
+			place_index[str(pl.get("id", ""))] = pl
+			for ev in pl.get("events", []):
+				_event_place[str(ev.get("id", ""))] = str(pl.get("id", ""))
 
 	for path in manifest.get("scenarios", []):
 		var s: Variant = _read_json(str(path))
@@ -109,6 +137,25 @@ func get_scenario(id: String) -> Dictionary:
 
 func get_territory(id: String) -> Dictionary:
 	return territories.get(id, {})
+
+
+func get_place(id: String) -> Dictionary:
+	return place_index.get(id, {})
+
+
+func place_of_event(event_id: String) -> String:
+	return str(_event_place.get(event_id, ""))
+
+
+## Города области (по убыванию значимости).
+func get_region_cities(region_id: String) -> Array:
+	var out: Array = []
+	for cid in cities.keys():
+		var c: Dictionary = cities[cid]
+		if str(c.get("region", "")) == region_id:
+			out.append(c)
+	out.sort_custom(func(a, b): return int(a.get("tier", 9)) < int(b.get("tier", 9)))
+	return out
 
 
 func _read_json(path: String) -> Variant:

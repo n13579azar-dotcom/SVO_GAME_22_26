@@ -4,7 +4,7 @@
   "kind": "fictional",
   "date_label": "Условная дата",
   "description": "Учебный сценарий версии 0.1. Захватите центральный узел и восточную точку, удерживая западную, или уничтожьте противника за 10 минут.",
-  "territory_id": "t_center",
+  "territory_id": "poltava",
   "time_limit": 600,
   "map": {
     "size": [

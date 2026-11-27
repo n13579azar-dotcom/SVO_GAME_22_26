@@ -1,0 +1,1321 @@
+{
+ "version": 1,
+ "places": [
+  {
+   "id": "slovyansk",
+   "name": "Славянск",
+   "pos": [
+    849.2,
+    300.0
+   ],
+   "pos_status": "exact",
+   "region": "donetsk",
+   "priority": 1,
+   "events": [
+    {
+     "id": "slovyansk_2014",
+     "title": "Славянск, 2014",
+     "years": [
+      2014
+     ],
+     "date_status": "verified",
+     "date_label": "12 апреля – 5 июля 2014",
+     "summary": "12 апреля 2014 года вооружённая группа заняла город. 5 июля 2014 года украинские силы вернули контроль над Славянском.",
+     "note": "",
+     "sources": [
+      {
+       "title": "Siege of Sloviansk (Wikipedia)",
+       "url": "https://en.wikipedia.org/wiki/Siege_of_Sloviansk"
+      },
+      {
+       "title": "5 июля 2014: освобождение Славянска, Краматорска, Дружковки, Константиновки (dn.gov.ua)",
+       "url": "https://dn.gov.ua/en/news/5-lypnia-2014-roku-den-zvilnennia-mist-sloviansk-kramatorsk-druzhkivka-ta-kostiantynivka-vid-rosiiskoi-okupatsii"
+      },
+      {
+       "title": "Ukranews: 5 июля 2014",
+       "url": "https://ukranews.com/en/news/1161297-12-years-ago-ukrainian-military-liberated-slovyansk-and-kramatorsk-from-russian-militants"
+      }
+     ],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "kramatorsk",
+   "name": "Краматорск",
+   "pos": [
+    846.0,
+    310.4
+   ],
+   "pos_status": "exact",
+   "region": "donetsk",
+   "priority": 1,
+   "events": [
+    {
+     "id": "kramatorsk_2014",
+     "title": "Краматорск, 2014",
+     "years": [
+      2014
+     ],
+     "date_status": "verified",
+     "date_label": "12 апреля – 5 июля 2014",
+     "summary": "12 апреля 2014 года город перешёл под контроль вооружённых формирований. 5 июля 2014 года украинские силы вошли в Краматорск.",
+     "note": "",
+     "sources": [
+      {
+       "title": "Battle of Kramatorsk (Wikipedia)",
+       "url": "https://en.wikipedia.org/wiki/Battle_of_Kramatorsk"
+      },
+      {
+       "title": "5 июля 2014: освобождение Славянска, Краматорска, Дружковки, Константиновки (dn.gov.ua)",
+       "url": "https://dn.gov.ua/en/news/5-lypnia-2014-roku-den-zvilnennia-mist-sloviansk-kramatorsk-druzhkivka-ta-kostiantynivka-vid-rosiiskoi-okupatsii"
+      },
+      {
+       "title": "Ukranews: 5 июля 2014",
+       "url": "https://ukranews.com/en/news/1161297-12-years-ago-ukrainian-military-liberated-slovyansk-and-kramatorsk-from-russian-militants"
+      }
+     ],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "karachun",
+   "name": "Гора Карачун",
+   "pos": [
+    845.5,
+    296.8
+   ],
+   "pos_status": "approx",
+   "region": "donetsk",
+   "priority": 2,
+   "events": [
+    {
+     "id": "karachun_2014",
+     "title": "Карачун, 2014",
+     "years": [
+      2014
+     ],
+     "date_status": "partial",
+     "date_label": "20 апреля и конец июня 2014",
+     "summary": "По Wikipedia: 20 апреля 2014 года отряд отправили вывести из строя трансформатор телевышки на Карачуне; в конце июня при наступлении на Славянск армия заняла Карачун. Подробности требуют сверки.",
+     "note": "Координаты ориентировочные.",
+     "sources": [
+      {
+       "title": "Siege of Sloviansk (Wikipedia)",
+       "url": "https://en.wikipedia.org/wiki/Siege_of_Sloviansk"
+      }
+     ],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "luhansk_base",
+   "name": "Пограничная база Луганска",
+   "pos": [
+    938.3,
+    324.0
+   ],
+   "pos_status": "approx",
+   "region": "luhansk",
+   "priority": 2,
+   "events": [
+    {
+     "id": "luhansk_base_2014",
+     "title": "Блокада Луганской погранбазы, 2014",
+     "years": [
+      2014
+     ],
+     "date_status": "verified",
+     "date_label": "2–4 июня 2014",
+     "summary": "2 июня 2014 года базу на окраине Луганска атаковали; осада продолжалась до 4 июня. Затем база перешла под контроль вооружённых формирований ЛНР.",
+     "note": "Точное положение базы не уточнялось, маркер ориентировочный.",
+     "sources": [
+      {
+       "title": "Siege of the Luhansk border base (Wikipedia)",
+       "url": "https://en.wikipedia.org/wiki/Siege_of_the_Luhansk_border_base"
+      },
+      {
+       "title": "RFE/RL, 2 июня 2014",
+       "url": "https://www.rferl.org/a/25382555/lbl0lbi36278.html"
+      },
+      {
+       "title": "The Moscow Times, 2 июня 2014",
+       "url": "https://www.themoscowtimes.com/2014/06/02/pro-russia-rebels-attack-ukrainian-border-guards-a36063/pdf"
+      }
+     ],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "luhansk_airport",
+   "name": "Аэропорт Луганска",
+   "pos": [
+    942.5,
+    334.4
+   ],
+   "pos_status": "approx",
+   "region": "luhansk",
+   "priority": 2,
+   "events": [
+    {
+     "id": "luhansk_airport_2014",
+     "title": "Аэропорт Луганска, 2014",
+     "years": [
+      2014
+     ],
+     "date_status": "partial",
+     "date_label": "июнь – начало сентября 2014 (источники расходятся)",
+     "summary": "По Wikipedia, бои за аэропорт начались 8 июня 2014 года; по Kyiv Post оборона продолжалась до начала сентября 2014 года. Точные даты требуют сверки.",
+     "note": "Координаты ориентировочные.",
+     "sources": [
+      {
+       "title": "Luhansk International Airport (Wikipedia)",
+       "url": "https://en.wikipedia.org/wiki/Luhansk_International_Airport"
+      },
+      {
+       "title": "Kyiv Post: оборона аэропорта Луганска",
+       "url": "https://kyivpost.com/post/8514"
+      }
+     ],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "donetsk_airport",
+   "name": "Аэропорт Донецка",
+   "pos": [
+    855.6,
+    362.4
+   ],
+   "pos_status": "approx",
+   "region": "donetsk",
+   "priority": 1,
+   "events": [
+    {
+     "id": "donetsk_airport_2014",
+     "title": "Аэропорт Донецка, 2014",
+     "years": [
+      2014
+     ],
+     "date_status": "needs_check",
+     "date_label": "предварительно: с мая 2014",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "Координаты ориентировочные.",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "lysychansk",
+   "name": "Лисичанск",
+   "pos": [
+    892.2,
+    296.0
+   ],
+   "pos_status": "exact",
+   "region": "luhansk",
+   "priority": 2,
+   "events": [
+    {
+     "id": "lysychansk_2014",
+     "title": "Лисичанск, 2014",
+     "years": [
+      2014
+     ],
+     "date_status": "needs_check",
+     "date_label": "2014",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    },
+    {
+     "id": "lysychansk_2022",
+     "title": "Лисичанск, 2022",
+     "years": [
+      2022
+     ],
+     "date_status": "needs_check",
+     "date_label": "предварительно: 2022",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "Лисичанск назван в списке дважды; оставлены оба упоминания.",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "horlivka",
+   "name": "Горловка",
+   "pos": [
+    872.0,
+    344.0
+   ],
+   "pos_status": "exact",
+   "region": "donetsk",
+   "priority": 2,
+   "events": [
+    {
+     "id": "horlivka_2014",
+     "title": "Горловка, 2014",
+     "years": [
+      2014
+     ],
+     "date_status": "needs_check",
+     "date_label": "2014",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "shakhtarsk",
+   "name": "Шахтёрск",
+   "pos": [
+    895.3,
+    363.2
+   ],
+   "pos_status": "exact",
+   "region": "donetsk",
+   "priority": 3,
+   "events": [
+    {
+     "id": "shakhtarsk_2014",
+     "title": "Шахтёрск, 2014",
+     "years": [
+      2014
+     ],
+     "date_status": "needs_check",
+     "date_label": "2014",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "izvaryne",
+   "name": "Район Изварино (Южный котёл)",
+   "pos": [
+    969.0,
+    362.4
+   ],
+   "pos_status": "approx",
+   "region": "luhansk",
+   "priority": 2,
+   "events": [
+    {
+     "id": "south_cauldron_2014",
+     "title": "Южный котёл, 2014",
+     "years": [
+      2014
+     ],
+     "date_status": "needs_check",
+     "date_label": "предварительно: лето 2014",
+     "summary": "Название «Южный котёл» не подтверждено в источниках, найденных при разработке. Рядом описаны бои у границы в районе Изварино (операция началась 12 июня 2014 года, Wikipedia). Нужно уточнить, о каком событии идёт речь.",
+     "note": "Место ориентировочное.",
+     "sources": [
+      {
+       "title": "Fights on the Ukrainian–Russian border (2014) (Wikipedia)",
+       "url": "https://en.wikipedia.org/wiki/Fights_on_the_Ukrainian%E2%80%93Russian_border_(2014)"
+      }
+     ],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "checkpoint_32",
+   "name": "32-й блокпост",
+   "pos": null,
+   "pos_status": "unknown",
+   "region": "luhansk",
+   "priority": 3,
+   "events": [
+    {
+     "id": "checkpoint_32_2014",
+     "title": "32-й блокпост, 2014",
+     "years": [
+      2014
+     ],
+     "date_status": "needs_check",
+     "date_label": "предварительно: осень 2014",
+     "summary": "Найдено только упоминание боёв за 32-й блокпост осенью 2014 года. Место и даты требуют проверки.",
+     "note": "Координаты не подтверждены.",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "kupiansk",
+   "name": "Купянск",
+   "pos": [
+    849.2,
+    231.2
+   ],
+   "pos_status": "exact",
+   "region": "kharkiv",
+   "priority": 2,
+   "events": [
+    {
+     "id": "kupiansk_ev",
+     "title": "Купянск",
+     "years": [
+      2022,
+      2023
+     ],
+     "date_status": "needs_check",
+     "date_label": "годы ориентировочные",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "kremenna",
+   "name": "Кременная",
+   "pos": [
+    881.0,
+    283.2
+   ],
+   "pos_status": "exact",
+   "region": "luhansk",
+   "priority": 3,
+   "events": [
+    {
+     "id": "kremenna_ev",
+     "title": "Кременная",
+     "years": [
+      2022,
+      2023
+     ],
+     "date_status": "needs_check",
+     "date_label": "годы ориентировочные",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "irpin",
+   "name": "Ирпень",
+   "pos": [
+    458.5,
+    166.4
+   ],
+   "pos_status": "exact",
+   "region": "kyiv",
+   "priority": 2,
+   "events": [
+    {
+     "id": "irpin_ev",
+     "title": "Ирпень",
+     "years": [
+      2022
+     ],
+     "date_status": "needs_check",
+     "date_label": "предварительно: 2022",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "hostomel",
+   "name": "Гостомель",
+   "pos": [
+    459.1,
+    160.8
+   ],
+   "pos_status": "exact",
+   "region": "kyiv",
+   "priority": 2,
+   "events": [
+    {
+     "id": "hostomel_ev",
+     "title": "Гостомель",
+     "years": [
+      2022
+     ],
+     "date_status": "needs_check",
+     "date_label": "предварительно: 2022",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "velyka_novosilka",
+   "name": "Великая Новосёлка",
+   "pos": [
+    807.9,
+    380.8
+   ],
+   "pos_status": "exact",
+   "region": "donetsk",
+   "priority": 3,
+   "events": [
+    {
+     "id": "velyka_novosilka_ev",
+     "title": "Великая Новосёлка",
+     "years": [
+      2023,
+      2024,
+      2025
+     ],
+     "date_status": "needs_check",
+     "date_label": "годы ориентировочные",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "bucha",
+   "name": "Буча",
+   "pos": [
+    456.4,
+    164.0
+   ],
+   "pos_status": "exact",
+   "region": "kyiv",
+   "priority": 2,
+   "events": [
+    {
+     "id": "bucha_ev",
+     "title": "Буча",
+     "years": [
+      2022
+     ],
+     "date_status": "needs_check",
+     "date_label": "предварительно: 2022",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "donetsk",
+   "name": "Донецк",
+   "pos": [
+    858.8,
+    366.4
+   ],
+   "pos_status": "exact",
+   "region": "donetsk",
+   "priority": 1,
+   "events": [
+    {
+     "id": "donetsk_ev",
+     "title": "Донецк",
+     "years": [],
+     "date_status": "needs_check",
+     "date_label": "период не указан",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "В списке: «Донецк» отдельно от аэропорта. Период уточнить.",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "mariupol",
+   "name": "Мариуполь и «Азовсталь»",
+   "pos": [
+    846.5,
+    432.9
+   ],
+   "pos_status": "exact",
+   "region": "donetsk",
+   "priority": 1,
+   "events": [
+    {
+     "id": "mariupol_ev",
+     "title": "Мариуполь и «Азовсталь»",
+     "years": [
+      2022
+     ],
+     "date_status": "needs_check",
+     "date_label": "предварительно: 2022",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "kharkiv",
+   "name": "Харьков",
+   "pos": [
+    775.5,
+    208.8
+   ],
+   "pos_status": "exact",
+   "region": "kharkiv",
+   "priority": 1,
+   "events": [
+    {
+     "id": "kharkiv_ev",
+     "title": "Харьков",
+     "years": [
+      2022
+     ],
+     "date_status": "needs_check",
+     "date_label": "предварительно: 2022",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "kyiv",
+   "name": "Киев",
+   "pos": [
+    472.8,
+    172.0
+   ],
+   "pos_status": "exact",
+   "region": "kyiv",
+   "priority": 1,
+   "events": [
+    {
+     "id": "kyiv_ev",
+     "title": "Киев",
+     "years": [
+      2022
+     ],
+     "date_status": "needs_check",
+     "date_label": "предварительно: 2022",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "melitopol",
+   "name": "Мелитополь",
+   "pos": [
+    729.9,
+    460.8
+   ],
+   "pos_status": "exact",
+   "region": "zaporizhzhia",
+   "priority": 2,
+   "events": [
+    {
+     "id": "melitopol_ev",
+     "title": "Мелитополь",
+     "years": [
+      2022
+     ],
+     "date_status": "needs_check",
+     "date_label": "предварительно: 2022",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "snake_island",
+   "name": "Остров Змеиный",
+   "pos": [
+    455.9,
+    587.6
+   ],
+   "pos_status": "exact",
+   "region": "odesa",
+   "priority": 2,
+   "events": [
+    {
+     "id": "snake_island_ev",
+     "title": "Остров Змеиный",
+     "years": [
+      2022
+     ],
+     "date_status": "needs_check",
+     "date_label": "предварительно: 2022",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "sumy",
+   "name": "Сумы",
+   "pos": [
+    699.7,
+    135.2
+   ],
+   "pos_status": "exact",
+   "region": "sumy",
+   "priority": 2,
+   "events": [
+    {
+     "id": "sumy_ev",
+     "title": "Сумы",
+     "years": [
+      2022
+     ],
+     "date_status": "needs_check",
+     "date_label": "годы ориентировочные",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "toretsk",
+   "name": "Торецк",
+   "pos": [
+    861.4,
+    336.0
+   ],
+   "pos_status": "exact",
+   "region": "donetsk",
+   "priority": 3,
+   "events": [
+    {
+     "id": "toretsk_ev",
+     "title": "Торецк",
+     "years": [
+      2024,
+      2025
+     ],
+     "date_status": "needs_check",
+     "date_label": "годы ориентировочные",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "kherson",
+   "name": "Херсон",
+   "pos": [
+    584.2,
+    476.8
+   ],
+   "pos_status": "exact",
+   "region": "kherson",
+   "priority": 1,
+   "events": [
+    {
+     "id": "kherson_ev",
+     "title": "Херсон",
+     "years": [
+      2022
+     ],
+     "date_status": "needs_check",
+     "date_label": "предварительно: 2022",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "chornobyl",
+   "name": "Чернобыльская АЭС",
+   "pos": [
+    450.6,
+    96.8
+   ],
+   "pos_status": "exact",
+   "region": "kyiv",
+   "priority": 2,
+   "events": [
+    {
+     "id": "chornobyl_ev",
+     "title": "Чернобыльская АЭС",
+     "years": [
+      2022
+     ],
+     "date_status": "needs_check",
+     "date_label": "предварительно: 2022",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "avdiivka",
+   "name": "Авдеевка",
+   "pos": [
+    856.1,
+    356.8
+   ],
+   "pos_status": "exact",
+   "region": "donetsk",
+   "priority": 2,
+   "events": [
+    {
+     "id": "avdiivka_ev",
+     "title": "Авдеевка",
+     "years": [
+      2023,
+      2024
+     ],
+     "date_status": "needs_check",
+     "date_label": "годы ориентировочные",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "bakhmut",
+   "name": "Бахмут",
+   "pos": [
+    869.4,
+    320.0
+   ],
+   "pos_status": "exact",
+   "region": "donetsk",
+   "priority": 1,
+   "events": [
+    {
+     "id": "bakhmut_ev",
+     "title": "Бахмут",
+     "years": [
+      2022,
+      2023
+     ],
+     "date_status": "needs_check",
+     "date_label": "годы ориентировочные",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "chasiv_yar",
+   "name": "Часов Яр",
+   "pos": [
+    860.3,
+    320.8
+   ],
+   "pos_status": "exact",
+   "region": "donetsk",
+   "priority": 3,
+   "events": [
+    {
+     "id": "chasiv_yar_ev",
+     "title": "Часов Яр",
+     "years": [
+      2024,
+      2025
+     ],
+     "date_status": "needs_check",
+     "date_label": "годы ориентировочные",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "vuhledar",
+   "name": "Угледар",
+   "pos": [
+    829.6,
+    385.6
+   ],
+   "pos_status": "exact",
+   "region": "donetsk",
+   "priority": 3,
+   "events": [
+    {
+     "id": "vuhledar_ev",
+     "title": "Угледар",
+     "years": [
+      2022,
+      2023,
+      2024
+     ],
+     "date_status": "needs_check",
+     "date_label": "годы ориентировочные",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "soledar",
+   "name": "Соледар",
+   "pos": [
+    874.1,
+    312.8
+   ],
+   "pos_status": "exact",
+   "region": "donetsk",
+   "priority": 3,
+   "events": [
+    {
+     "id": "soledar_ev",
+     "title": "Соледар",
+     "years": [
+      2023
+     ],
+     "date_status": "needs_check",
+     "date_label": "предварительно: 2023",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "sievierodonetsk",
+   "name": "Северодонецк",
+   "pos": [
+    895.3,
+    292.0
+   ],
+   "pos_status": "exact",
+   "region": "luhansk",
+   "priority": 2,
+   "events": [
+    {
+     "id": "sievierodonetsk_ev",
+     "title": "Северодонецк",
+     "years": [
+      2022
+     ],
+     "date_status": "needs_check",
+     "date_label": "предварительно: 2022",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "pokrovsk",
+   "name": "Покровск",
+   "pos": [
+    825.9,
+    345.6
+   ],
+   "pos_status": "exact",
+   "region": "donetsk",
+   "priority": 2,
+   "events": [
+    {
+     "id": "pokrovsk_ev",
+     "title": "Покровск",
+     "years": [
+      2024,
+      2025
+     ],
+     "date_status": "needs_check",
+     "date_label": "годы ориентировочные",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "marinka",
+   "name": "Марьинка",
+   "pos": [
+    843.4,
+    372.8
+   ],
+   "pos_status": "exact",
+   "region": "donetsk",
+   "priority": 3,
+   "events": [
+    {
+     "id": "marinka_ev",
+     "title": "Марьинка",
+     "years": [
+      2022,
+      2023
+     ],
+     "date_status": "needs_check",
+     "date_label": "годы ориентировочные",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "lyman",
+   "name": "Лиман",
+   "pos": [
+    858.8,
+    288.0
+   ],
+   "pos_status": "exact",
+   "region": "donetsk",
+   "priority": 3,
+   "events": [
+    {
+     "id": "lyman_ev",
+     "title": "Лиман",
+     "years": [
+      2022
+     ],
+     "date_status": "needs_check",
+     "date_label": "годы ориентировочные",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "kurakhove",
+   "name": "Курахово",
+   "pos": [
+    831.2,
+    368.8
+   ],
+   "pos_status": "exact",
+   "region": "donetsk",
+   "priority": 3,
+   "events": [
+    {
+     "id": "kurakhove_ev",
+     "title": "Курахово",
+     "years": [
+      2024
+     ],
+     "date_status": "needs_check",
+     "date_label": "годы ориентировочные",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "dnipro",
+   "name": "Днепр",
+   "pos": [
+    713.0,
+    331.2
+   ],
+   "pos_status": "exact",
+   "region": "dnipropetrovsk",
+   "priority": 2,
+   "events": [
+    {
+     "id": "dnipro_ev",
+     "title": "Днепр",
+     "years": [],
+     "date_status": "needs_check",
+     "date_label": "период не указан",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "tendra",
+   "name": "Коса Тендра",
+   "pos": [
+    538.0,
+    506.4
+   ],
+   "pos_status": "approx",
+   "region": "kherson",
+   "priority": 2,
+   "events": [
+    {
+     "id": "tendra_2024",
+     "title": "Коса Тендра, 2024",
+     "years": [
+      2024
+     ],
+     "date_status": "verified",
+     "date_label": "28–29 февраля 2024; повторный рейд 7 августа 2024",
+     "summary": "В ночь на 28 и утро 29 февраля 2024 года спецназ ВСУ высаживался на косу Тендра; операция была неудачной (Минобороны признало гибель четырёх человек). Об очередном рейде на косу украинская сторона заявила 7 августа 2024 года.",
+     "note": "Положение косы на карте ориентировочное.",
+     "sources": [
+      {
+       "title": "Raids on the Tendra Spit (Wikipedia)",
+       "url": "https://en.wikipedia.org/wiki/Raids_on_the_Tendra_Spit"
+      },
+      {
+       "title": "Kyiv Independent: рейд 7 августа 2024",
+       "url": "https://kyivindependent.com/ukrainian-special-forces-raid/amp"
+      }
+     ],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "belgorod_bryansk",
+   "name": "Белгородская и Брянская области (рейды 2023)",
+   "pos": [
+    745.8,
+    169.6
+   ],
+   "pos_status": "approx",
+   "region": "sumy",
+   "priority": 2,
+   "events": [
+    {
+     "id": "raids_2023",
+     "title": "Рейды в Белгородскую и Брянскую области, 2023",
+     "years": [
+      2023
+     ],
+     "date_status": "verified",
+     "date_label": "март, 22 мая и 1 июня 2023",
+     "summary": "Март 2023: заявленный рейд в Брянскую область; 22 мая 2023: рейд в Белгородскую область (Грайворонский район); 1 июня 2023: заявлен ещё один рейд. Рейды заявляли добровольческие формирования российских оппозиционеров.",
+     "note": "Маркер показывает район Грайворона и условно отмечает всю группу событий.",
+     "sources": [
+      {
+       "title": "2023 Belgorod Oblast incursions (Wikipedia)",
+       "url": "https://en.wikipedia.org/wiki/2023_Belgorod_Oblast_incursions"
+      },
+      {
+       "title": "Russian Volunteer Corps (Wikipedia)",
+       "url": "https://en.wikipedia.org/wiki/Russian_Volunteer_Corps"
+      }
+     ],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "counteroffensive_2023",
+   "name": "Контрнаступление 2023 (Запорожское направление)",
+   "pos": [
+    754.3,
+    412.8
+   ],
+   "pos_status": "approx",
+   "region": "zaporizhzhia",
+   "priority": 2,
+   "events": [
+    {
+     "id": "counteroffensive_2023",
+     "title": "Контрнаступление 2023",
+     "years": [
+      2023
+     ],
+     "date_status": "needs_check",
+     "date_label": "предварительно: 2023",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "Контрнаступление велось на нескольких направлениях; маркер условно в районе Запорожского направления.",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "belgorod_kursk_2024",
+   "name": "Белгородская и Курская области, март 2024",
+   "pos": [
+    739.5,
+    132.0
+   ],
+   "pos_status": "approx",
+   "region": "sumy",
+   "priority": 2,
+   "events": [
+    {
+     "id": "incursion_mar_2024",
+     "title": "Белгородская и Курская области, март 2024",
+     "years": [
+      2024
+     ],
+     "date_status": "verified",
+     "date_label": "12 марта – 7 апреля 2024",
+     "summary": "12 марта 2024 года вооружённые группы российских оппозиционеров вошли с территории Украины в Белгородскую и Курскую области (РДК, Легион «Свобода России», Сибирский батальон). По Wikipedia, РДК заявлял об операции до 7 апреля 2024 года.",
+     "note": "Маркер условный на границе.",
+     "sources": [
+      {
+       "title": "March 2024 western Russia incursion (Wikipedia)",
+       "url": "https://en.wikipedia.org/wiki/2024_western_Russia_incursion"
+      },
+      {
+       "title": "ISW, 12 марта 2024",
+       "url": "https://www.criticalthreats.org/analysis/russian-offensive-campaign-assessment-march-12-2024"
+      }
+     ],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "novopavlivka",
+   "name": "Новопавловское направление",
+   "pos": null,
+   "pos_status": "unknown",
+   "region": "donetsk",
+   "priority": 3,
+   "events": [
+    {
+     "id": "novopavlivka_ev",
+     "title": "Новопавловское направление",
+     "years": [],
+     "date_status": "needs_check",
+     "date_label": "период не указан",
+     "summary": "Из названия неясно, о каком населённом пункте и периоде идёт речь. Нужно уточнить.",
+     "note": "Координаты не подтверждены.",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "olhivskyi_forest",
+   "name": "Ольговский лес",
+   "pos": null,
+   "pos_status": "unknown",
+   "region": "",
+   "priority": 3,
+   "events": [
+    {
+     "id": "olhivskyi_forest_ev",
+     "title": "Ольговский лес",
+     "years": [],
+     "date_status": "needs_check",
+     "date_label": "период не указан",
+     "summary": "Название и место не подтверждены. Нужно уточнить.",
+     "note": "Координаты не подтверждены.",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "kursk_2024",
+   "name": "Курская область, 2024–2025",
+   "pos": [
+    724.6,
+    112.8
+   ],
+   "pos_status": "approx",
+   "region": "sumy",
+   "priority": 2,
+   "events": [
+    {
+     "id": "kursk_2024_ev",
+     "title": "Курская область, 2024–2025",
+     "years": [
+      2024,
+      2025
+     ],
+     "date_status": "needs_check",
+     "date_label": "предварительно: 2024–2025",
+     "summary": "Описание и даты ещё не сверены с источниками.",
+     "note": "Маркер условно в районе Суджи.",
+     "sources": [],
+     "scenario_id": ""
+    }
+   ]
+  },
+  {
+   "id": "test_poltava",
+   "name": "Полтава (тест)",
+   "pos": [
+    686.5,
+    240.8
+   ],
+   "pos_status": "exact",
+   "region": "poltava",
+   "priority": 3,
+   "events": [
+    {
+     "id": "test_01",
+     "title": "Тестовый сценарий 1",
+     "years": [
+      0
+     ],
+     "date_status": "fictional",
+     "date_label": "вымышленный",
+     "summary": "Тестовая стычка для проверки механик. Не связана с реальными событиями.",
+     "note": "",
+     "sources": [],
+     "scenario_id": "test_01"
+    }
+   ]
+  },
+  {
+   "id": "test_kropyvnytskyi",
+   "name": "Кропивницкий (тест)",
+   "pos": [
+    565.1,
+    327.2
+   ],
+   "pos_status": "exact",
+   "region": "kirovohrad",
+   "priority": 3,
+   "events": [
+    {
+     "id": "test_02",
+     "title": "Тестовый сценарий 2",
+     "years": [
+      0
+     ],
+     "date_status": "fictional",
+     "date_label": "вымышленный",
+     "summary": "Тестовая стычка для проверки механик. Не связана с реальными событиями.",
+     "note": "",
+     "sources": [],
+     "scenario_id": "test_02"
+    }
+   ]
+  }
+ ]
+}
