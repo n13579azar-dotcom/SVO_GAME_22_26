@@ -482,7 +482,8 @@ func _update_pinch() -> void:
 
 
 func _is_emulated(e: InputEvent) -> bool:
-	return e.device == InputEvent.DEVICE_ID_EMULATION or not _touches.is_empty()
+	# Godot 4.2.2 uses device ID -1 for emulated input; the named constant is unavailable here.
+	return e.device == -1 or not _touches.is_empty()
 
 
 func _on_mouse_button(e: InputEventMouseButton) -> void:
